@@ -1,83 +1,65 @@
 # WorldGen
-[M2ISE2019] Master informatique 2ème année 2019-2020
+<h1>[M2ISE2019] Master informatique 2ème année 2019-2020</h1>
 
-Générateur d’un monde 3d à partir de données Google map
+<h2>Générateur d’un monde 3d à partir de données Google map</h2>
+
+Conception d’une application permettant de générer un monde 3d à partir d’une adresse. Plus globalement, l’idée est de transformer le rendu 2d des tuiles google map en 3d. Il faut donc développer le programme, permettant d’analyser une image aérienne, d’en déduire les objets présents (arbres, habitations, véhicules ..), et de construire un monde 3d à partir de ces interprétations. 
 
 
-Conception d’une application permettant de générer un monde 3d à partir d’une adresse. Plus globalement, l’idée est de transformer le rendu 2d des tuiles google map en 3d. Il faut donc développer le programme, permettant d’analyser une image aérienne, d’en déduire les objets présents (arbre, habitation, véhicules ..), et de construire un monde 3d à partir de ces interprétations. 
-
-
-Utilisation<br>
+<h3>Utilisation</h3>
 L’utilisateur pose POI sur une map
 L’application affiche le rendu 3d correspondant.
 L’utilisateur peut orienter son point de vue dans le monde
 
-Les technologies utilisées
-Api google map
-TensorFlow (Keras ?)
-WebGL (tree.js, )
-Websocket
+<h3>Les technologies utilisées</h3>
+<ul>
+	<li>Api google map</li>
+	<li>TensorFlow + Keras</li>
+	<li>WebGL (tree.js)</li>
+	<li>Websocket</li>
+</ul>
 
-Les composants du programme
-Récupération de la latitude et longitude du POI
-Récupération d’une image 2d correspondant à un périmètre autour du point (à définir)
-Analyse de l’image pour identifier les objets présents et leur position
-Récupération de ces données et mise en correspondance avec notre bibliothèque d’asset 3d
-Génération de l'environnement  3d
-Export de 8 vues jpg
-Envoie des vues via websocket
+<h3>Les composants du programme</h3>
+<ol>
+	<li>Récupération de la latitude et longitude du POI</li>
+	<li>Récupération d’une image 2d correspondant à un périmètre autour du point</li>
+	<li>Analyse de l’image pour identifier les objets présents et leur position</li>
+	<li>Récupération de ces données et mise en correspondance avec notre bibliothèque d’asset 3d</li>
+	<li>Génération de l'environnement 3d</li>
+	<li>Export de 8 vues jpg</li>
+	<li>Envoie des vues via websocket</li>
+</ol>
 
 
-Modèle de donnée
-
+<h3>Modèle de donnée</h3>
 Serveur vers l’application
-{“lat” : 48.9465246,  “lng” : 2.3106941}
-
-Application vers serveur
-{}
+{"lat" : 48.9465246,  “lng” : 2.3106941}
 
 
+<h3>Détails d’implémentations</h3>
 
-
-Détails d’implémentations
-
-Web socket :
+<b>Web socket</b>
 Mise en place d’un protocole Websocket, protocole émettant une demande de connexion lorsque celle-ci est acceptée, la connexion est établie et persistante, elle autorise alors la transmission de message bi-directionnels c’est à dire en émission comme en réception. Cette connexion reste ouverte jusqu’à ce qu’un des protagoniste décide de la clore.
  
- 
 
-Récupération d’une image satellite à partir de données géolocalisées : 
+<b>Récupération d’une image satellite à partir de données géolocalisées</b>
 Une fois les données GPS récupérées sur notre machine, nous utiliserons l’api google map (The Maps JavaScript API V3) pour générer image aérienne dont le périmètre est à définir. 
 
 
-Machine learning (apprentissage supervisé)
-- Technologies : TensorFlow, Keras
-- Création du corpus à l’aide de data-set existants :  Earth Engine API, https://www.kaggle.com
-- Element de recherche :
-Eléments naturels:
-	Végétation
-		Forêts,
-		Prairies
-		...
-	Cours d’eau
-		Mer
-		Rivières
-		Fleuves
-		…
-Infrastructures
-Immeubles
-	Ponts
-
-Véhicules
-Voitures
-	Camion
-	….
-….
+<h3>Machine learning (apprentissage supervisé)</h3>
+<ul>
+	<li>Technologies : TensorFlow + Keras</li>
+	<li>Création du corpus à l’aide de data-set existants :  Earth Engine API, https://www.kaggle.com</li>
+	<li>Element de recherche : 
+		<ul>
+		<li>Eléments naturels: végétation, forêts, prairies, cours d’eau, mer, rivières, fleuves.</li>
+		<li>Infrastructures: immeubles, maisons, ponts </li>
+		<li>Véhicules : voitures, camions, bateaux</li>
+	<li>	
+</ul>
 			
-Rendu 3D
-Technologies: fichiers 3D
+<h3>Rendu 3D</h3>
+Technologies: WebGL
 En fonction de l’étude de l’image satellite, les éléments détectés par l’algorithme seront placés fidèlement en accord avec la disponibilité des modèles présent dans la bibliothèque. Des jeux/sets complémentaires seront possiblement additionnables (mondes alternatifs).  
 
 
-Envoi du résultat au serveur
-...
