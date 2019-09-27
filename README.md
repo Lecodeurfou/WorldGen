@@ -46,19 +46,20 @@ Mise en place d’un protocole Websocket, protocole émettant une demande de con
 Une fois les données GPS récupérées sur notre machine, nous utiliserons l’api google map (The Maps JavaScript API V3) pour générer image aérienne dont le périmètre est à définir. 
 
 
-<h3>Machine learning (apprentissage supervisé)</h3>
+<b>Machine learning (apprentissage supervisé)</b>
 <ul>
 	<li>Technologies : TensorFlow + Keras</li>
 	<li>Création du corpus à l’aide de data-set existants :  Earth Engine API, https://www.kaggle.com</li>
 	<li>Element de recherche : 
 		<ul>
-		<li>Eléments naturels: végétation, forêts, prairies, cours d’eau, mer, rivières, fleuves.</li>
-		<li>Infrastructures: immeubles, maisons, ponts </li>
-		<li>Véhicules : voitures, camions, bateaux</li>
+			<li>Eléments naturels: végétation, forêts, prairies, cours d’eau, mer, rivières, fleuves.</li>
+			<li>Infrastructures: immeubles, maisons, ponts </li>
+			<li>Véhicules : voitures, camions, bateaux</li>
+		</ul>
 	<li>	
 </ul>
 			
-<h3>Rendu 3D</h3>
+<b>Rendu 3D</b>
 Technologies: WebGL
 En fonction de l’étude de l’image satellite, les éléments détectés par l’algorithme seront placés fidèlement en accord avec la disponibilité des modèles présent dans la bibliothèque. Des jeux/sets complémentaires seront possiblement additionnables (mondes alternatifs).  
 
