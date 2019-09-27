@@ -59,7 +59,7 @@ Une fois les données GPS récupérées sur notre machine, nous utiliserons l’
 	<li>	
 </ul>
 			
-<b>Rendu 3D</b>
+<b>Rendu 3D</b><br>
 Technologies: WebGL
 En fonction de l’étude de l’image satellite, les éléments détectés par l’algorithme seront placés fidèlement en accord avec la disponibilité des modèles présent dans la bibliothèque. Des jeux/sets complémentaires seront possiblement additionnables (mondes alternatifs).  
 
