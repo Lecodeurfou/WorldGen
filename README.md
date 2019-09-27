@@ -7,9 +7,11 @@ Conception d’une application permettant de générer un monde 3d à partir d�
 
 
 <h3>Utilisation</h3>
-L’utilisateur pose POI sur une map
-L’application affiche le rendu 3d correspondant.
-L’utilisateur peut orienter son point de vue dans le monde
+<ul>
+	<li>L’utilisateur pose un POI sur une map</li>
+	<li>L’application affiche le rendu 3d correspondant.</li>
+	<li>L’utilisateur peut orienter son point de vue dans le monde</li>
+</ul>
 
 <h3>Les technologies utilisées</h3>
 <ul>
