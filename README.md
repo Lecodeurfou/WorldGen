@@ -7,7 +7,7 @@ Générateur d’un monde 3d à partir de données Google map
 Conception d’une application permettant de générer un monde 3d à partir d’une adresse. Plus globalement, l’idée est de transformer le rendu 2d des tuiles google map en 3d. Il faut donc développer le programme, permettant d’analyser une image aérienne, d’en déduire les objets présents (arbre, habitation, véhicules ..), et de construire un monde 3d à partir de ces interprétations. 
 
 
-Utilisation
+Utilisation<br>
 L’utilisateur pose POI sur une map
 L’application affiche le rendu 3d correspondant.
 L’utilisateur peut orienter son point de vue dans le monde
