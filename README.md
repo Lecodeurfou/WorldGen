@@ -42,7 +42,7 @@ Application vers serveur
 Détails d’implémentations
 
 Web socket :
-Mise en place d’un protocole Websocket, protocole émettant une demande de connexion lorsque celle-ci est accepté la connexion est établie et persistante, elle autorise alors la transmission de message bi-directionnels c’est à dire en émission comme en réception. Cette connexion reste ouverte jusqu’à ce qu’un des protagoniste décide de la clore.
+Mise en place d’un protocole Websocket, protocole émettant une demande de connexion lorsque celle-ci est acceptée, la connexion est établie et persistante, elle autorise alors la transmission de message bi-directionnels c’est à dire en émission comme en réception. Cette connexion reste ouverte jusqu’à ce qu’un des protagoniste décide de la clore.
  
  
 
