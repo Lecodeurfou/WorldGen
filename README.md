@@ -66,5 +66,12 @@ Technologies: WebGL
 En fonction de l’étude de l’image satellite, les éléments détectés par l’algorithme seront placés fidèlement en accord avec la disponibilité des modèles présent dans la bibliothèque. Des jeux/sets complémentaires seront possiblement additionnables (mondes alternatifs).  
 
 
+
+<ul> Schema de fonctionnement </ul>
+
 <img src="https://github.com/Lecodeurfou/WorldGen/blob/master/Schema_fonctionnement.jpg" />
+
+<ul> Diagramme de Gantt </ul>
+
+<img src="https://github.com/Lecodeurfou/WorldGen/blob/master/WorldGen_Diagramme_Gantt.png" />
 
