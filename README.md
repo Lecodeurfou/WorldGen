@@ -58,7 +58,7 @@ Une fois les données GPS récupérées sur notre machine, nous utiliserons l’
 			<li>Infrastructures: immeubles, maisons, ponts </li>
 			<li>Véhicules : voitures, camions, bateaux</li>
 		</ul>
-	<li>	
+	
 </ul>
 			
 <b>Rendu 3D</b><br>
@@ -67,11 +67,11 @@ En fonction de l’étude de l’image satellite, les éléments détectés par 
 
 
 
-<ul> Schema de fonctionnement </ul>
+<ul> <li> Schema de fonctionnement </li> </ul>
 
 <img src="https://github.com/Lecodeurfou/WorldGen/blob/master/Schema_fonctionnement.jpg" />
 
-<ul> Diagramme de Gantt </ul>
+<ul> <li> Diagramme de Gantt </li> </ul>
 
 <img src="https://github.com/Lecodeurfou/WorldGen/blob/master/WorldGen_Diagramme_Gantt.png" />
 
