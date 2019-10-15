@@ -73,5 +73,5 @@ En fonction de l’étude de l’image satellite, les éléments détectés par 
 
 <ul> <li> Diagramme de Gantt </li> </ul>
 
-<img src="https://github.com/Lecodeurfou/WorldGen/blob/master/WorldGen_Diagramme_Gantt.png" />
+<img src="https://github.com/Lecodeurfou/WorldGen/blob/master/WorldGen_Diagramme_Gantt_version2.png" />
 
