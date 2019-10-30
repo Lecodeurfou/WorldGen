@@ -1,16 +1,10 @@
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-var renderer = new THREE.WebGLRenderer({ antialias: true });
+var renderer = new THREE.WebGLRenderer({ antialiasing: true, preserveDrawingBuffer: true});
 
 camera.position.set(5, 5, 6);
 camera.lookAt(new THREE.Vector3(0, 0, 0));
 renderer.setSize(window.innerWidth, window.innerHeight);
-
-function animate() {
-    camera.updateProjectionMatrix();
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-};
 
 function addPlane() {
     var plane = new THREE.Mesh(
@@ -36,31 +30,21 @@ function loadGLTFObj(obj) {
     });
 }
 
-function generateRandomJson(nbObjs) {
-    var json = [];
-    var min = -5;
-    var max = 5;
-
-    for (i = 0; i < nbObjs; i++) {
-        json.push({
-            "file": (i % 2 === 0) ? 'models/shop.glb' : 'models/building2.glb',
-            "z": Math.random() * (max - min) + min,
-            "y": 1,
-            "x": Math.random() * (max - min) + min,
-        });
-    }
-    return json
-}
-
-function addObjectsFromJson() {
-    var objects = generateRandomJson(10);
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
+function addObjectsFromJson(json) {
+    for (var i = 0; i < json.length; i++) {
+        var obj = json[i];
         loadGLTFObj(obj);
-    }
+    }  
 }
 
-document.body.appendChild(renderer.domElement);
-addPlane();
-addObjectsFromJson();
-animate();
+function resetScene(){
+    scene.remove.apply(scene, scene.children);
+}
+
+// function animate() {
+//     camera.updateProjectionMatrix();
+//     requestAnimationFrame(animate);
+//     renderer.render(scene, camera);
+// };
+
+
