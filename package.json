@@ -1,0 +1,24 @@
+{
+  "name": "worldgen",
+  "version": "1.0.0",
+  "description": "<h1>[M2ISE2019] Master informatique 2ème année 2019-2020</h1>",
+  "main": "start.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lecodeurfou/WorldGen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lecodeurfou/WorldGen/issues"
+  },
+  "homepage": "https://github.com/Lecodeurfou/WorldGen#readme"
+}
