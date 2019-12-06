@@ -10,27 +10,27 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.min.js"></script>
         <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
 		<script src="scripts/app.js"></script>
+		<script src="scripts/geometry.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
-        <script>
+		<script>
+			
 			var socket = io.connect('http://localhost:8080');
+			document.body.appendChild(renderer.domElement);
 
 			socket.on('generateWorld', function(datas) {
-	
-				json = JSON.parse(datas);
 
+				terrainType =  JSON.parse(datas);
+				console.log(terrainType);
+				
 				resetScene();
-				addPlane();
-				addObjectsFromJson(json);
+				addTerrain();
+				addZones();
 				
-				document.body.appendChild(renderer.domElement);
+				camera.updateProjectionMatrix();
+				renderer.render(scene, camera);
+				imgData = renderer.domElement.toDataURL();
+				socket.emit("imgBase64", imgData );	
 
-				setTimeout(function(){
-					camera.updateProjectionMatrix();
-					renderer.render(scene, camera);
-					imgData = renderer.domElement.toDataURL();
-					socket.emit("imgBase64", imgData );	
-				}, 100);
-				
 			});
         </script>
 	</body>

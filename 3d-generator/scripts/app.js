@@ -1,50 +1,28 @@
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({ antialiasing: true, preserveDrawingBuffer: true});
 
-camera.position.set(5, 5, 6);
-camera.lookAt(new THREE.Vector3(0, 0, 0));
+camera.position.set(0, 0, 5);
+//camera.position.set(0, -2, 1);
+camera.lookAt(new THREE.Vector3(0 ,0 ,0));
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-function addPlane() {
-    var plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(15, 15, 15, 15),
-        new THREE.MeshBasicMaterial({ color: 0x2c3e50, side: THREE.DoubleSide, wireframe: false })
-    );
-    plane.rotateX(Math.PI / 2);
-    scene.add(plane);
-}
-
-function loadGLTFObj(obj) {
-    var loader = new THREE.GLTFLoader();
-    loader.load(obj.file, function (data) {
-        object = data.scene;
-        scene.add(object);
-        object.traverse(function (child) {
-            if (child.isMesh) {
-                child.geometry.center();
-            }
-        });
-        object.scale.set(0.06, 0.06, 0.06);
-        object.position.set(obj.z, obj.y, obj.x);
-    });
-}
-
-function addObjectsFromJson(json) {
-    for (var i = 0; i < json.length; i++) {
-        var obj = json[i];
-        loadGLTFObj(obj);
-    }  
+function addZones(){
+    count = 0;
+    for(y2=2; y2 >=0; y2--){
+        for(w=0; w<=3; w=w+1.1){
+            addZone(w, y2, terrainType[count]);
+            count ++;
+        }
+    }
 }
 
 function resetScene(){
     scene.remove.apply(scene, scene.children);
 }
 
-// function animate() {
-//     camera.updateProjectionMatrix();
-//     requestAnimationFrame(animate);
-//     renderer.render(scene, camera);
-// };
-
-
+function animate() {
+    camera.updateProjectionMatrix();
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+};
