@@ -1,31 +1,61 @@
-import sys, json, numpy as np
-import json
-import random
+# Ignore warnings
+import warnings
+warnings.filterwarnings('ignore')
 
-def generateRandomWorld():
-    arr = []
-    min = -5
-    max = 5
+#Importing necessary librairies
+from PIL import Image
+import numpy as np
+from skimage import transform
+from keras.models import load_model
+from tensorflow.python.keras.backend import set_session
+from LoadandSplit import splitImage
+import tensorflow as tf
+import socketio
 
-    for i in range(6): 
-        arr = arr + [{
-            "file": 'models/shop.glb' if i % 2 == 0 else 'models/building2.glb',
-            "z" : random.random() * (max - min) + min,
-            "y": 1,
-            "x": random.random() * (max - min) + min,
+# load image
+def load(filename):
+   np_image = Image.open(filename)
+   np_image = np.array(np_image).astype('float32')/255
+   np_image = transform.resize(np_image, (64, 64, 3))
+   np_image = np.expand_dims(np_image, axis=0)
+   return np_image
 
-        }]
+#baseUri = './machine-learning/'
+baseUri = ''
+sio = socketio.Client()
+sess = tf.Session()
+set_session(sess)
 
-    return arr
+model = load_model(baseUri + "weights.best.hdf5")
+graph = tf.get_default_graph()
 
-def main():
+@sio.event
+def connect():
+	print('connection established')
 
-    #geoDatas = sys.argv[1]
+@sio.event
+def disconnect():
+	print('disconnected from server')
 
-    arr = generateRandomWorld()
-    serialized= json.dumps(arr, sort_keys=False, indent=3)
-    print(serialized)
-    sys.stdout.flush()
+def start():
+	sio.connect('http://localhost:8080')
 
-if __name__ == '__main__':
-    main()
+@sio.event
+def predict(data):
+    global graph
+    global sess
+    with graph.as_default():
+        print('ho grand oracle predit moi')
+        splitImage(data)
+        predictions = []
+        for i in range(0, 9):
+            # Opens a image in RGB mode 
+            image = load(baseUri + "test" + str(i) + ".png")
+            set_session(sess)
+            predictions.append(model.predict_classes(image)[0])
+        print(predictions)
+    
+    sio.emit('predictFinished', str(predictions))
+
+start()
+sio.wait()
