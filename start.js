@@ -18,6 +18,9 @@ app.get('/3d-generator', (req, res) => {
 app.get('/scripts/app.js',function(req,res){
     res.sendFile(path.join(__dirname + '/3d-generator/scripts/app.js')); 
 });
+app.get('/scripts/geometry.js',function(req,res){
+    res.sendFile(path.join(__dirname + '/3d-generator/scripts/geometry.js')); 
+});
 app.get('/models/shop.glb',function(req,res){
     res.sendFile(path.join(__dirname + '/3d-generator/models/shop.glb')); 
 });
@@ -37,21 +40,18 @@ io.sockets.on('connection', function (socket) {
 
         console.log('2 - GeoDatas reçus ');
     
-        geoDatas = {
-            lat: datas.lat, 
-            lng: datas.lng
-        };
+        geoDatas = [datas.lat, datas.lng];
         
+        socket.broadcast.emit('predict', geoDatas.toString());
         console.log('3 - Lancement du ml');
-
-        py = spawn('python', ['machine-learning/main.py']);
-        py.stdout.on('data', function(data){
-            console.log('4 - Envois au js');
-            socket.broadcast.emit('generateWorld', data.toString());
-        });
-    
     });
-   
+    
+    socket.on('predictFinished', function (datas) {
+        console.log(datas.toString());
+        console.log('4 - Envois au js');
+        socket.broadcast.emit('generateWorld', datas.toString());
+    });
+
     socket.on('imgBase64', function (img) {
         console.log('5 - Js terminé reception de l\'image');
         socket.broadcast.emit('imgBase64', img);
