@@ -18,6 +18,9 @@ app.get('/3d-generator', (req, res) => {
 app.get('/scripts/app.js',function(req,res){
     res.sendFile(path.join(__dirname + '/3d-generator/scripts/app.js')); 
 });
+app.get('/scripts/orbitControls.js',function(req,res){
+    res.sendFile(path.join(__dirname + '/3d-generator/scripts/orbitControls.js')); 
+});
 app.get('/scripts/geometry.js',function(req,res){
     res.sendFile(path.join(__dirname + '/3d-generator/scripts/geometry.js')); 
 });
@@ -45,6 +48,7 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.emit('predict', geoDatas.toString());
         console.log('3 - Lancement du ml');
     });
+    
     
     socket.on('predictFinished', function (datas) {
         console.log(datas.toString());
