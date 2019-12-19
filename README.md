@@ -1,35 +1,36 @@
 # WorldGen
 <h1>[M2ISE2019] Master informatique 2ème année 2019-2020</h1>
 
-<h2>Générateur d’un monde 3d à partir de données Google map</h2>
+<h2>Générateur d’un monde 3d à partir de points geolocalisées</h2>
 
-Conception d’une application permettant de générer un monde 3d à partir d’une adresse. Plus globalement, l’idée est de transformer le rendu 2d des tuiles google map en 3d. Il faut donc développer le programme, permettant d’analyser une image aérienne, d’en déduire les objets présents (arbres, habitations, véhicules ..), et de construire un monde 3d à partir de ces interprétations. 
+L’objectif de ce projet est la réalisation d’une application permettant de générer un monde 3d à partir d’une adresse. L’idée est de transformer le rendu 2d des tuiles google map en monde 3d. Il faut donc développer le programme, permettant d’analyser une image aérienne, de prédire la nature des zones de l’image, et de générer le rendu 3d à partir de ces interprétations.
+
 
 
 <h3>Utilisation</h3>
 <ul>
-	<li>L’utilisateur pose un POI sur une map</li>
-	<li>L’application affiche le rendu 3d correspondant.</li>
-	<li>L’utilisateur peut orienter son point de vue dans le monde</li>
+	<li>Lancer le serveur node.js : node start.js</li>
+	<li>Lancer le script de prédiction : python3 machine_learning/main.py</li>
+	<li>Se rendre à l'url : http://localhost:8080/client-test</li>
+	<li>Se rendre à l'url : http://localhost:8080/3d-generator</li>
 </ul>
 
 <h3>Les technologies utilisées</h3>
 <ul>
-	<li>Api google map</li>
+	<li>API MapQuest</li>
 	<li>TensorFlow + Keras</li>
 	<li>WebGL (tree.js)</li>
 	<li>Websocket</li>
+	<li>Node.js + express.js</li>
 </ul>
 
 <h3>Les composants du programme</h3>
 <ol>
 	<li>Récupération de la latitude et longitude du POI</li>
 	<li>Récupération d’une image 2d correspondant à un périmètre autour du point</li>
-	<li>Analyse de l’image pour identifier les objets présents et leur position</li>
-	<li>Récupération de ces données et mise en correspondance avec notre bibliothèque d’asset 3d</li>
+	<li>Analyse de l’image pour identifier les zones présentes</li>
+	<li>Récupération de ces données</li>
 	<li>Génération de l'environnement 3d</li>
-	<li>Export de 8 vues jpg</li>
-	<li>Envoie des vues via websocket</li>
 </ol>
 
 
@@ -40,38 +41,33 @@ Serveur vers l’application
 
 <h3>Détails d’implémentations</h3>
 
-<b>Web socket</b>
-Mise en place d’un protocole Websocket, protocole émettant une demande de connexion lorsque celle-ci est acceptée, la connexion est établie et persistante, elle autorise alors la transmission de message bi-directionnels c’est à dire en émission comme en réception. Cette connexion reste ouverte jusqu’à ce qu’un des protagoniste décide de la clore.
- 
+L’application est décomposée en 4 modules, communiquants à travers websocket. Chacun envoie ses données via la fonction emit() de websocket, et possède ses propres méthodes à exécuter lors de la réception d’un message : 
 
-<b>Récupération d’une image satellite à partir de données géolocalisées</b>
-Une fois les données GPS récupérées sur notre machine, nous utiliserons l’api google map (The Maps JavaScript API V3) pour générer image aérienne dont le périmètre est à définir. 
+<b>Schema de fonctionnement</b><br>
 
+<img src="https://github.com/Lecodeurfou/WorldGen/blob/master/archi.jpg" />
 
-<b>Machine learning (apprentissage supervisé)</b>
-<ul>
-	<li>Technologies : TensorFlow + Keras</li>
-	<li>Création du corpus à l’aide de data-set existants :  Earth Engine API, https://www.kaggle.com</li>
-	<li>Element de recherche : 
-		<ul>
-			<li>Eléments naturels: végétation, forêts, prairies, cours d’eau, mer, rivières, fleuves.</li>
-			<li>Infrastructures: immeubles, maisons, ponts </li>
-			<li>Véhicules : voitures, camions, bateaux</li>
-		</ul>
-	
-</ul>
-			
-<b>Rendu 3D</b><br>
-Technologies: WebGL
-En fonction de l’étude de l’image satellite, les éléments détectés par l’algorithme seront placés fidèlement en accord avec la disponibilité des modèles présent dans la bibliothèque. Des jeux/sets complémentaires seront possiblement additionnables (mondes alternatifs).  
+<b>Clients.js</b><br>
+
+Envoie  les données géolocalisées au serveur sous la forme suivante : 
+{lat: '48.9152512', lng:'2.7869184'}
+
+<b>Serveur.js</b><br>
+
+Il s’agit d’un serveur HTTP en  node.js avec le module socket.io. Il centralise les messages émis, fait la demande de prédiction, et envoie le résultat au fichier js qui génère le monde. Le serveur sert également à délivrer les différentes pages html et ressources associées.
 
 
+<b>Predict.py</b><br>
 
-<ul> <li> Schema de fonctionnement </li> </ul>
+Ce module commence par récupérer, à partir des données géolocalisées, une image satellite via L’API mapQuest. Une  fois l’image récupérée, il la divise en un set d’images de plus petites taille, 64 * 64px. Par exemple pour une image de 192 *194 nous aurons 9 vignettes. Une fois cette étape réalisée, le modèle de prédiction est chargé, une seule fois pendant la durée d’exécution de l’application, pour des raisons évidentes de performance. Enfin les images sont passées une par une au modèle, qui retourne l’indice de la classe d’appartenance. Une fois toutes les images traitées, le module retourne au serveur un tableau de prédiction de ce type : [2,3,5,3,2,5,3,7,5]
 
-<img src="https://github.com/Lecodeurfou/WorldGen/blob/master/Schema_fonctionnement.jpg" />
 
-<ul> <li> Diagramme de Gantt </li> </ul>
+<b>GenerateWorld.js</b><br>
+
+Le module utilise la librairie Three.js pour le rendu 3d. A partir du tableau de prédictions fourni par le serveur, le système ajoute un terrain divisé en cases de dimension n*n, n étant  le nombre de zones à générer. On ajoute donc sur chacunes de ces cases un ensemble d’objets 3d représentant le zone prédite. Enfin, le module retourne au serveur, une image en base64 du rendu, qui sera par la suite acheminée vers le client.
+
+
+<h3>Diagramme de Gantt</h3>
 
 <img src="https://github.com/Lecodeurfou/WorldGen/blob/master/WorldGen_Diagramme_Gantt_version2.png" />
 
