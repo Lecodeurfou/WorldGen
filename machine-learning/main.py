@@ -11,6 +11,8 @@ from tensorflow.python.keras.backend import set_session
 from LoadandSplit import splitImage
 import tensorflow as tf
 import socketio
+from math import pow
+import time
 
 # load image
 def load(filename):
@@ -26,8 +28,9 @@ sio = socketio.Client()
 sess = tf.Session()
 set_session(sess)
 
-model = load_model(baseUri + "weights.best.hdf5")
+model = load_model(baseUri + "weights.hdf5")
 graph = tf.get_default_graph()
+size = 896
 
 @sio.event
 def connect():
@@ -46,15 +49,18 @@ def predict(data):
     global sess
     with graph.as_default():
         print('ho grand oracle predit moi')
-        splitImage(data)
+        splitImage(size, data)
         predictions = []
-        for i in range(0, 9):
+        timeCount = time.time()
+        for i in range(0, int(pow(size // 64, 2))):
             # Opens a image in RGB mode 
             image = load(baseUri + "test" + str(i) + ".png")
+            #image = load(baseUri + 'test.png')
             set_session(sess)
             predictions.append(model.predict_classes(image)[0])
         print(predictions)
-    
+
+        print(time.time() - timeCount)
     sio.emit('predictFinished', str(predictions))
 
 start()
