@@ -5,30 +5,32 @@
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
 		</style>
-	</head>
-	<body>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.min.js"></script>
-        <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.min.js"></script>
+        <script src="scripts/orbitControls.js"></script>
 		<script src="scripts/app.js"></script>
 		<script src="scripts/geometry.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body>
 		<script>
 			
 			var socket = io.connect('http://localhost:8080');
 			document.body.appendChild(renderer.domElement);
+			
 
 			socket.on('generateWorld', function(datas) {
 
 				terrainType =  JSON.parse(datas);
-				console.log(terrainType);
+				//console.log(terrainType);
 				
 				resetScene();
-				addTerrain();
+				//addTerrain();
 				addZones();
 				
-				camera.updateProjectionMatrix();
-				renderer.render(scene, camera);
+				// camera.updateProjectionMatrix();
+				// renderer.render(scene, camera);
 				imgData = renderer.domElement.toDataURL();
+				animate();
 				socket.emit("imgBase64", imgData );	
 
 			});
